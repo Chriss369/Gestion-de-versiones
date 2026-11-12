@@ -1,22 +1,34 @@
-/* Sistema de Registro de Incidencias - v1.0.0
- * Registro y listado de incidencias (sin base de datos, solo en memoria).
+/* Sistema de Registro de Incidencias - v1.1.0
+ * Novedad: filtrado de incidencias por estado y selección de estado al registrar.
  */
+
+var ESTADOS = ["Abierta", "En proceso", "Resuelta"];
 
 function crearIncidencia(lista, datos) {
   var titulo = (datos.titulo || "").trim();
   if (!titulo) {
     throw new Error("El título es obligatorio");
   }
+  var estado = datos.estado || "Abierta";
+  if (ESTADOS.indexOf(estado) === -1) {
+    throw new Error("Estado no válido");
+  }
   var incidencia = {
     id: lista.length + 1,
     titulo: titulo,
     descripcion: (datos.descripcion || "").trim(),
     reportadoPor: (datos.reportadoPor || "").trim() || "Anónimo",
-    estado: "Abierta",
+    estado: estado,
     fecha: new Date().toISOString().slice(0, 10)
   };
   lista.push(incidencia);
   return incidencia;
+}
+
+function filtrarPorEstado(lista, estado) {
+  return lista.filter(function (inc) {
+    return inc.estado === estado;
+  });
 }
 
 function claseEstado(estado) {
@@ -29,16 +41,37 @@ if (typeof document !== "undefined") {
   crearIncidencia(incidencias, {
     titulo: "Error al iniciar sesión",
     descripcion: "El botón de ingresar no responde en Firefox.",
-    reportadoPor: "María"
+    reportadoPor: "María",
+    estado: "Abierta"
+  });
+  crearIncidencia(incidencias, {
+    titulo: "Reporte mensual tarda en cargar",
+    descripcion: "La pantalla de reportes demora más de 20 segundos.",
+    reportadoPor: "Luis",
+    estado: "En proceso"
+  });
+  crearIncidencia(incidencias, {
+    titulo: "Texto cortado en móvil",
+    descripcion: "El menú se corta en pantallas pequeñas.",
+    reportadoPor: "Ana",
+    estado: "Resuelta"
   });
 
   var listaEl = document.getElementById("lista");
   var formEl = document.getElementById("form-incidencia");
   var errorEl = document.getElementById("error");
+  var filtroEl = document.getElementById("filtro");
 
   var render = function () {
+    var visibles = filtrarPorEstado(incidencias, filtroEl.value);
     listaEl.innerHTML = "";
-    incidencias.forEach(function (inc) {
+    if (visibles.length === 0) {
+      var vacio = document.createElement("li");
+      vacio.textContent = "No hay incidencias para mostrar.";
+      listaEl.appendChild(vacio);
+      return;
+    }
+    visibles.forEach(function (inc) {
       var li = document.createElement("li");
       li.className = "incidencia";
 
@@ -67,7 +100,8 @@ if (typeof document !== "undefined") {
       crearIncidencia(incidencias, {
         titulo: document.getElementById("titulo").value,
         descripcion: document.getElementById("descripcion").value,
-        reportadoPor: document.getElementById("reportadoPor").value
+        reportadoPor: document.getElementById("reportadoPor").value,
+        estado: document.getElementById("estado").value
       });
       errorEl.textContent = "";
       formEl.reset();
@@ -77,9 +111,13 @@ if (typeof document !== "undefined") {
     }
   });
 
+  filtroEl.addEventListener("change", render);
   render();
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { crearIncidencia: crearIncidencia };
+  module.exports = {
+    crearIncidencia: crearIncidencia,
+    filtrarPorEstado: filtrarPorEstado
+  };
 }

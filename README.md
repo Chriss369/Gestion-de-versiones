@@ -8,10 +8,10 @@ Proyecto de la asignatura **Gestión de la Configuración del Software** (Unidad
 | Integrante | Usuario de GitHub |
 |---|---|
 | Christopher Aguiño | Chriss369 |
-| _(completar)_ | _(completar)_ |
-| _(completar)_ | _(completar)_ |
-| _(completar)_ | _(completar)_ |
-
+| Domenica piza| 
+| Veroica Pin  |
+| bryan Martinez | 
+| _Steven barona| 
 ## Tecnologías
 
 HTML, CSS y JavaScript (sin base de datos ni servidor), Git, GitHub, GitHub Actions y GitHub Pages.

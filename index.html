@@ -9,7 +9,7 @@
 <body>
   <header>
     <h1>Sistema de Registro de Incidencias</h1>
-    <p>Versión 1.0.0</p>
+    <p>Versión 1.1.0</p>
   </header>
 
   <main>
@@ -25,6 +25,13 @@
         <label>Reportado por
           <input type="text" id="reportadoPor" placeholder="Tu nombre">
         </label>
+        <label>Estado
+          <select id="estado">
+            <option value="Abierta">Abierta</option>
+            <option value="En proceso">En proceso</option>
+            <option value="Resuelta">Resuelta</option>
+          </select>
+        </label>
         <p class="error" id="error" role="alert"></p>
         <button type="submit">Registrar</button>
       </form>
@@ -32,11 +39,21 @@
 
     <section>
       <h2>Listado de incidencias</h2>
+      <div class="toolbar">
+        <label>Filtrar por estado
+          <select id="filtro">
+            <option value="todos">Todos</option>
+            <option value="Abierta">Abierta</option>
+            <option value="En proceso">En proceso</option>
+            <option value="Resuelta">Resuelta</option>
+          </select>
+        </label>
+      </div>
       <ul id="lista"></ul>
     </section>
   </main>
 
-  <footer>Gestión de la Configuración del Software · v1.0.0</footer>
+  <footer>Gestión de la Configuración del Software · v1.1.0</footer>
 
   <script src="app.js"></script>
 </body>

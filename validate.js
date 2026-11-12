@@ -30,6 +30,14 @@ prueba("index.html enlaza app.js y style.css", function () {
 // 3. Lógica de negocio
 const app = require("./app.js");
 
+function datos() {
+  const lista = [];
+  app.crearIncidencia(lista, { titulo: "A", estado: "Abierta" });
+  app.crearIncidencia(lista, { titulo: "B", estado: "En proceso" });
+  app.crearIncidencia(lista, { titulo: "C", estado: "Resuelta" });
+  return lista;
+}
+
 prueba("crearIncidencia registra una incidencia", function () {
   const lista = [];
   const inc = app.crearIncidencia(lista, { titulo: "Prueba", descripcion: "d", reportadoPor: "Ana" });
@@ -42,6 +50,18 @@ prueba("crearIncidencia exige título", function () {
   assert.throws(function () {
     app.crearIncidencia([], { titulo: "   " });
   });
+});
+
+prueba("filtrarPorEstado devuelve solo el estado pedido", function () {
+  const res = app.filtrarPorEstado(datos(), "En proceso");
+  assert.strictEqual(res.length, 1);
+  assert.strictEqual(res[0].titulo, "B");
+});
+
+// Prueba de regresión de la Issue #1 (filtro "Todos")
+prueba("filtrarPorEstado con 'todos' devuelve todas las incidencias", function () {
+  const res = app.filtrarPorEstado(datos(), "todos");
+  assert.strictEqual(res.length, 3);
 });
 
 if (fallos > 0) {

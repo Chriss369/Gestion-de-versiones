@@ -1,5 +1,5 @@
-/* Sistema de Registro de Incidencias - v1.1.0
- * Novedad: filtrado de incidencias por estado y selección de estado al registrar.
+/* Sistema de Registro de Incidencias - v1.1.1
+ * Corrección: el filtro "Todos" ya muestra todas las incidencias (Issue #1).
  */
 
 var ESTADOS = ["Abierta", "En proceso", "Resuelta"];
@@ -26,6 +26,10 @@ function crearIncidencia(lista, datos) {
 }
 
 function filtrarPorEstado(lista, estado) {
+  // CORRECCIÓN v1.1.1: "todos" (o vacío) devuelve la lista completa
+  if (!estado || estado === "todos") {
+    return lista.slice();
+  }
   return lista.filter(function (inc) {
     return inc.estado === estado;
   });

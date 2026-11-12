@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro de Incidencias</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Sistema de Registro de Incidencias</h1>
+    <p>Versión 1.0.0</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Registrar incidencia</h2>
+      <form id="form-incidencia" novalidate>
+        <label>Título
+          <input type="text" id="titulo" placeholder="Ej: No carga la página de inicio" required>
+        </label>
+        <label>Descripción
+          <textarea id="descripcion" rows="3" placeholder="Describe el problema"></textarea>
+        </label>
+        <label>Reportado por
+          <input type="text" id="reportadoPor" placeholder="Tu nombre">
+        </label>
+        <p class="error" id="error" role="alert"></p>
+        <button type="submit">Registrar</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Listado de incidencias</h2>
+      <ul id="lista"></ul>
+    </section>
+  </main>
+
+  <footer>Gestión de la Configuración del Software · v1.0.0</footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
